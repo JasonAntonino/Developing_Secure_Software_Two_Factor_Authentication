@@ -1,0 +1,80 @@
+#indexContainer{
+    margin: auto;
+    position: absolute;
+    /* left: 50%; */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 250px;
+    /* border-style: solid;
+    border-color: #4d94ff; */
+    width: 500px;
+    text-align: center;
+}
+
+#indexButtons{
+    vertical-align: middle;
+}
+
+#registerBox{
+    margin: auto;
+    position: absolute;
+    /* left: 50%; */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 250px;
+    /* border-style: solid;
+    border-color: #4d94ff; */
+    width: 1000px;
+    text-align: center;
+    color:white;
+}
+
+#mainbox{
+    background-color: #18181a;
+    width: 100%;
+    height: 100%;
+    /* border-style: solid;
+    border-color: green; */
+    position: absolute;
+}
+
+.button{
+    margin: 5px;
+}
+
+#imageSelector{
+    display: inline-flex;
+    /* border-style: solid;
+    border-color: green; */
+    margin: 20px auto;
+    /* height: 170px;
+    width: 1000px; */
+    justify-self: center;
+}
+
+.imageButton1{
+    background: url(images/cat.jpg); 
+    background-size: 100%; 
+    width: 300px; 
+    height: 170px;
+    margin-right: 5px;
+}
+
+.imageButton2{
+    background: url(images/duck.jpg); 
+    background-size: 100%; 
+    width: 300px; 
+    height: 170px;
+    margin-right: 5px;
+}
+
+.imageButton3{
+    background: url(images/tiger.jpg); 
+    background-size: 100%; 
+    width: 300px; 
+    height: 170px;
+}

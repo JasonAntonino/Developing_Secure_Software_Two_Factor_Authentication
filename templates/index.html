@@ -1,0 +1,23 @@
+{% extends "BASE.html" %}
+{% block title %}Index page{% endblock %}
+
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
+
+{% block bodyblock %}
+    <div id="mainbox">
+        <div id = "indexContainer">
+            <div id = "indexButtons">
+                <a class="btn btn-primary btn-lg button" href="/login" role="button">Login</a><br>
+                <!-- <a href = "/login"><button class = "button" type="submit">Login</button></a><br> -->
+                <a class="btn btn-primary btn-lg button" href="/register" role="button">Register</a>
+                <!-- <a href = "/register"><button class = "button" type="submit">Register</button></a> -->
+            </div>
+        </div>
+    </div>
+{% endblock %}

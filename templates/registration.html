@@ -1,0 +1,62 @@
+{% extends "BASE.html" %}
+{% block title %}Registration page{% endblock %}
+
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
+
+{% block bodyblock %}
+    
+
+    <div id="mainbox">   
+        <div id = "registerBox">
+            <form action="/signup/signup" method="POST">
+                <!-- Full Name -->
+                <div class = "signUpFields">
+                    <h4>Full Name</h4>
+                    <input type="text" name="fullname" pattern="^[a-zA-Z0-9]+$" required pattern="\S+.*" />
+                </div>
+
+                <!-- Username -->
+                <div class = "signUpFields">
+                    <h4>Username</h4>
+                    <input type="text" name="username" pattern="^[a-zA-Z0-9]+$" required pattern="\S+.*" />
+                </div>
+
+                <!-- Email -->
+                <div class = "signUpFields">
+                    <h4>Email</h4>
+                    <input type="email" name="email" pattern="^[a-zA-Z0-9]+$" required pattern="\S+.*" /><br>
+                </div>
+
+                <br><h4>Select an image:</h4>
+                <div id="imageSelector">
+                    <input name="" class="imageButton1 imbutton active"></input>
+                    <input class="imageButton2 imbutton"></input>
+                    <input class="imageButton3 imbutton"></input>
+                </div>    
+
+                <!-- Create AccountButton -->
+                <button class="btn btn-primary btn-lg button" type="submit">Continue</button>
+            </form>
+            <a class="btn btn-primary btn-lg button" href="/" role="button">Go Back</a>        
+        </div>
+    </div>
+
+    <script>
+        // Add active class to the current button (highlight it)
+        var header = document.getElementById("imageSelector");
+        var buttons = header.getElementsByClassName("imbutton");
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener("click", function() {
+                var current = document.getElementsByClassName("active");
+                current[0].className = current[0].className.replace(" active", "");
+                this.className += " active";
+            });
+        }
+    </script>
+{% endblock %}
