@@ -15,6 +15,22 @@ def login():
 def register():
     return render_template('registration.html')
 
+@app.route('/register/selection', methods=['GET', 'POST'])
+def selection():
+    imageValue = request.form.get('imageToUse')
+    print(imageValue)
+
+    if imageValue == str(1):
+        imageToDisplay = "../static/images/cat.jpg"
+    elif imageValue == str(2):
+        imageToDisplay = "../static/images/duck.jpg"
+    else:
+        imageToDisplay = "../static/images/tiger.jpg"
+
+    print(imageToDisplay)
+
+    return render_template('selection.html', imageToDisplay = imageToDisplay)
+
 @app.route('/home')
 def home():
     return render_template('home.html')

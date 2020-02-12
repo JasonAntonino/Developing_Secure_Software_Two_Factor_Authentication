@@ -1,0 +1,17 @@
+{% extends "BASE.html" %}
+{% block title %}Selection page{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block bodyblock %}
+    <div id="mainbox">
+        <div id="imagebox">
+            <h4>Identify Points To Be Used For Authentication:</h4>
+            <img id="imageboxcontent" src="{{imageToDisplay}}" alt="image">
+        </div>
+    </div>
+    {% block script %}
+    {% endblock %}
+{% endblock %}

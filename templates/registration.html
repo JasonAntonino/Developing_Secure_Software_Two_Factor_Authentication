@@ -2,19 +2,13 @@
 {% block title %}Registration page{% endblock %}
 
 {% block head %}
-  {{ super() }}
-{% endblock %}
-
-{% block script %}
-
+    {{ super() }}
 {% endblock %}
 
 {% block bodyblock %}
-    
-
-    <div id="mainbox">   
+    <div id="mainbox">
         <div id = "registerBox">
-            <form action="/signup/signup" method="POST">
+            <form action="/register/selection" method="POST">
                 <!-- Full Name -->
                 <div class = "signUpFields">
                     <h4>Full Name</h4>
@@ -30,15 +24,19 @@
                 <!-- Email -->
                 <div class = "signUpFields">
                     <h4>Email</h4>
-                    <input type="email" name="email" pattern="^[a-zA-Z0-9]+$" required pattern="\S+.*" /><br>
+                    <input type="email" name="email" required pattern="\S+.*" /><br>
                 </div>
 
+                <!-- Image Selection -->
                 <br><h4>Select an image:</h4>
                 <div id="imageSelector">
-                    <input name="" class="imageButton1 imbutton active"></input>
-                    <input class="imageButton2 imbutton"></input>
-                    <input class="imageButton3 imbutton"></input>
-                </div>    
+                    <button type="button" name="button" value="1" class="imageButton1 imbutton active" onclick="image1()"></button>
+                    <button type="button" name="button" value="2" class="imageButton2 imbutton" onclick="image2()"></button>
+                    <button type="button" name="button" value="3" class="imageButton3 imbutton" onclick="image3()"></button>
+                    <input type="hidden" id="imageToUse" name="imageToUse" value="0">
+                </div>
+
+                 <!-- This is what will be sent to identify which image will be used -->
 
                 <!-- Create AccountButton -->
                 <button class="btn btn-primary btn-lg button" type="submit">Continue</button>
@@ -47,16 +45,7 @@
         </div>
     </div>
 
-    <script>
-        // Add active class to the current button (highlight it)
-        var header = document.getElementById("imageSelector");
-        var buttons = header.getElementsByClassName("imbutton");
-        for (var i = 0; i < buttons.length; i++) {
-            buttons[i].addEventListener("click", function() {
-                var current = document.getElementsByClassName("active");
-                current[0].className = current[0].className.replace(" active", "");
-                this.className += " active";
-            });
-        }
-    </script>
+    {% block script %}
+        <script type="text/javascript" src="static/scripts/imageSelector.js"></script>
+    {% endblock %}
 {% endblock %}
