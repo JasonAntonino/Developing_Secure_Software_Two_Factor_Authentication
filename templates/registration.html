@@ -36,16 +36,49 @@
                     <input type="hidden" id="imageToUse" name="imageToUse" value="0">
                 </div>
 
-                 <!-- This is what will be sent to identify which image will be used -->
+                <!-- Grid Sequence Selection -->
+                <h4>Identify Points To Be Used For Authentication:</h4>
+                <img id="imageboxcontent" src="static/images/cat_grid.jpg" alt="image" usemap="#imagemap">
+                <map id="mapforimage" name="imagemap">
+                    <input type="hidden" id="gridSequence" name="gridSequence" value="">
+                </map>
+                <h4 id="sequencetext"></h4>
 
+                <!-- Button which clears the created sequence -->
+                <button class="btn btn-primary btn-lg button" type="button" onclick="clearSequence()">Reset Sequence</button>
+                
                 <!-- Create AccountButton -->
-                <button class="btn btn-primary btn-lg button" type="submit">Continue</button>
+                <button class="btn btn-primary btn-lg button" type="submit">Create Account</button>
             </form>
+
+            <!-- Go Back button -->
             <a class="btn btn-primary btn-lg button" href="/" role="button">Go Back</a>        
         </div>
     </div>
 
     {% block script %}
+        <script>
+            var counter = 1;
+            // Iterates through column
+            for (var i = 0; i < 6; i++){
+                //Iterates through rows
+                for(var j = 0; j < 10; j++){
+                    var x = document.createElement("AREA");
+                    x.setAttribute("id", counter);
+                    x.setAttribute("alt", counter);
+                    x.setAttribute("shape", "rect");
+                    x.setAttribute("coords", (-96 + 96*(j+1)) + ',' + (-90 + 90*(i+1)) + ',' + 96*(j+1) + ',' + 90*(i+1));
+                    x.setAttribute("onclick", "gridSelector(" + x.id + ");");
+                    //alert(x.onclick);
+                    document.getElementById("mapforimage").appendChild(x);
+                    //myHTML += '<area id="' + counter + '" shape="rect" coords="' + (-96 + 96*(j+1)) + ',' + (-90 + 90*(i+1)) + ',' + 96*(j+1) + ',' + 90*(i+1) + '" alt="' + counter + '" onclick="gridSelector(this.id)"></area><br/>';
+                    counter++;
+                }
+            }
+        </script>
+
         <script type="text/javascript" src="static/scripts/imageSelector.js"></script>
+        <script type="text/javascript" src={{ url_for('static', filename='scripts/gridSelector.js')}}></script>
+        <script type="text/javascript" src={{ url_for('static', filename='scripts/clearSequence.js')}}></script>
     {% endblock %}
 {% endblock %}

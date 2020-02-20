@@ -1,0 +1,2 @@
+CSV_DELIMITER = ','
+CSV_QUOTE = '|'

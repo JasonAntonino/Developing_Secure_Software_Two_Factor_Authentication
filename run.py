@@ -1,42 +1,50 @@
 from flask import Flask, render_template, request, session, make_response
-
+from static.database.database import Database
 app = Flask(__name__)
 # app.secret_key = ''
+
+dbmain = Database()
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/login')
-def login():
+def loginpage():
     return render_template('login.html')
 
+@app.route('/login/login', methods=['GET','POST'])
+def login():
+    username = request.form.get('username')
+    sequence = request.form.get('gridSequence')
+
+    username = username.lower()
+
+    if dbmain.loginValidation(username, sequence) == 1:
+        userId = dbmain.getUserIdByUsername(username)
+        # generate login token
+        # dbmain.login
+        # get user id
+        return render_template('home.html')
+    else:
+        return render_template('index.html')
+        
 @app.route('/register')
 def register():
     return render_template('registration.html')
 
 @app.route('/register/selection', methods=['GET', 'POST'])
 def selection():
-    imageValue = request.form.get('imageToUse')
-    print(imageValue)
-
-    if imageValue == str(1):
-        imageToDisplay = "../static/images/cat_grid.jpg"
-    elif imageValue == str(2):
-        imageToDisplay = "../static/images/duck_grid.jpg"
-    else:
-        imageToDisplay = "../static/images/tiger_grid.jpg"
-
-    print(imageToDisplay)
-
-    return render_template('selection.html', imageToDisplay = imageToDisplay)
-
-@app.route('/register/selection/confirm', methods=['GET', 'POST'])
-def confirmation():
+    fullname = request.form.get('fullname')
+    username = request.form.get('username')
+    email = request.form.get('email')
     sequence = request.form.get('gridSequence')
-    print(sequence)
 
-    return render_template('login.html')
+    if not dbmain.userExistsCheck(username):
+        dbmain.addNewAccount(username, fullname, email, sequence)
+        return render_template('index.html')
+    else:
+        return render_template('login.html') #THIS HAS TO BE CHANGED ================================================ADFADFADF=AD=FA=DFA=F=ASDF=AD=FA=F=AF=ASF=A=F=ASF=ASDF=
 
 @app.route('/home')
 def home():

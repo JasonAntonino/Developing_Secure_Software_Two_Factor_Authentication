@@ -5,15 +5,70 @@
   {{ super() }}
 {% endblock %}
 
-{% block script %}
-
-{% endblock %}
-
 {% block bodyblock %}
     <div id="mainbox">
-        <div id = "indexContainer">
-            <a class="btn btn-primary" href="/home" role="button">Login</a>
-            <a class="btn btn-primary" href="/" role="button">Go Back</a>
+        <div id = "registerBox">
+            <form action="/login/login" method="POST">
+
+                <!-- Username -->
+                <div class = "signUpFields">
+                    <h4>Username</h4>
+                    <input type="text" name="username" pattern="^[a-zA-Z0-9]+$" required pattern="\S+.*" />
+                </div>
+
+                <!-- Image Selection -->
+                <br><h4>Select an image:</h4>
+                <div id="imageSelector">
+                    <button type="button" name="button" value="1" class="imageButton1 imbutton active" onclick="image1()"></button>
+                    <button type="button" name="button" value="2" class="imageButton2 imbutton" onclick="image2()"></button>
+                    <button type="button" name="button" value="3" class="imageButton3 imbutton" onclick="image3()"></button>
+                    <input type="hidden" id="imageToUse" name="imageToUse" value="0">
+                </div>
+
+                <!-- Grid Sequence Selection -->
+                <h4>Identify Points To Be Used For Authentication:</h4>
+                <img id="imageboxcontent" src="static/images/cat_grid.jpg" alt="image" usemap="#imagemap">
+                <map id="mapforimage" name="imagemap">
+                    <input type="hidden" id="gridSequence" name="gridSequence" value="">
+                </map>
+                <h4 id="sequencetext"></h4>
+
+                <!-- Button which clears the created sequence -->
+                <button class="btn btn-primary btn-lg button" type="button" onclick="clearSequence()">Reset Sequence</button>
+                
+                <!-- Create AccountButton -->
+                <button class="btn btn-primary btn-lg button" type="submit">Login</button>
+            </form>
+
+            <!-- Go Back button -->
+            <a class="btn btn-primary btn-lg button" href="/" role="button">Go Back</a>        
         </div>
     </div>
+
+    {% block script %}
+        <script>
+            var counter = 1;
+            // Iterates through column
+            for (var i = 0; i < 6; i++){
+                //Iterates through rows
+                for(var j = 0; j < 10; j++){
+                    var x = document.createElement("AREA");
+                    x.setAttribute("id", counter);
+                    x.setAttribute("alt", counter);
+                    x.setAttribute("shape", "rect");
+                    x.setAttribute("coords", (-96 + 96*(j+1)) + ',' + (-90 + 90*(i+1)) + ',' + 96*(j+1) + ',' + 90*(i+1));
+                    x.setAttribute("onclick", "gridSelector(" + x.id + ");");
+                    //alert(x.onclick);
+                    document.getElementById("mapforimage").appendChild(x);
+                    //myHTML += '<area id="' + counter + '" shape="rect" coords="' + (-96 + 96*(j+1)) + ',' + (-90 + 90*(i+1)) + ',' + 96*(j+1) + ',' + 90*(i+1) + '" alt="' + counter + '" onclick="gridSelector(this.id)"></area><br/>';
+                    counter++;
+                }
+            }
+        </script>
+
+        <script type="text/javascript" src="static/scripts/imageSelector.js"></script>
+        <script type="text/javascript" src={{ url_for('static', filename='scripts/gridSelector.js')}}></script>
+        <script type="text/javascript" src={{ url_for('static', filename='scripts/clearSequence.js')}}></script>
+    {% endblock %}
+
 {% endblock %}
