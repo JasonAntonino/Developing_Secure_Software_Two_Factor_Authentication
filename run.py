@@ -23,13 +23,20 @@ def selection():
     if imageValue == str(1):
         imageToDisplay = "../static/images/cat_grid.jpg"
     elif imageValue == str(2):
-        imageToDisplay = "../static/images/duck.jpg"
+        imageToDisplay = "../static/images/duck_grid.jpg"
     else:
-        imageToDisplay = "../static/images/tiger.jpg"
+        imageToDisplay = "../static/images/tiger_grid.jpg"
 
     print(imageToDisplay)
 
     return render_template('selection.html', imageToDisplay = imageToDisplay)
+
+@app.route('/register/selection/confirm', methods=['GET', 'POST'])
+def confirmation():
+    sequence = request.form.get('gridSequence')
+    print(sequence)
+
+    return render_template('login.html')
 
 @app.route('/home')
 def home():
