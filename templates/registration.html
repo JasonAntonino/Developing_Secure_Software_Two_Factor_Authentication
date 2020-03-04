@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block bodyblock %}
-    <div id="mainbox">
+        <h4>{{error}}</h4>
         <div id = "registerBox">
             <form action="/register/selection" method="POST">
                 <!-- Full Name -->
@@ -42,7 +42,10 @@
                 <map id="mapforimage" name="imagemap">
                     <input type="hidden" id="gridSequence" name="gridSequence" value="">
                 </map>
-                <h4 id="sequencetext"></h4>
+                <!-- <h4 id="sequencetext"></h4> --> <!-- FOR DEBUG PURPOSES ONLY --> 
+                
+                <h4 id="numberinsequence">Number of Tiles Clicked: 0</h4> <!-- Shows the user how many tiles they have clicked -->
+                <input type="hidden" id="tilesClicked" name="tilesClicked" value="0">
 
                 <!-- Button which clears the created sequence -->
                 <button class="btn btn-primary btn-lg button" type="button" onclick="clearSequence()">Reset Sequence</button>
@@ -54,7 +57,6 @@
             <!-- Go Back button -->
             <a class="btn btn-primary btn-lg button" href="/" role="button">Go Back</a>        
         </div>
-    </div>
 
     {% block script %}
         <script>
@@ -79,6 +81,6 @@
 
         <script type="text/javascript" src="static/scripts/imageSelector.js"></script>
         <script type="text/javascript" src={{ url_for('static', filename='scripts/gridSelector.js')}}></script>
-        <script type="text/javascript" src={{ url_for('static', filename='scripts/clearSequence.js')}}></script>
+        <!-- <script type="text/javascript" src={{ url_for('static', filename='scripts/clearSequence.js')}}></script> -->
     {% endblock %}
 {% endblock %}

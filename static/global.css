@@ -25,21 +25,21 @@
     left: 0;
     right: 0;
     bottom: 0; */
-    height: 250px;
-    border-style: solid;
-    border-color: #4d94ff;
+    height: auto;
+    /* border-style: solid;
+    border-color: #4d94ff; */
     width: 1000px;
     text-align: center;
     color:white;
 }
 
 #mainbox{
-    background-color: #18181a;
+    /* background-color: #18181a; */
     width: 100%;
     height: 100%;
     /* border-style: solid;
     border-color: green; */
-    position: absolute;
+    /* position: absolute; */
 }
 
 .button{
@@ -93,4 +93,8 @@
 
 #buttonBox{
     text-align: center;
+}
+
+body{
+    background-color: #18181a;
 }

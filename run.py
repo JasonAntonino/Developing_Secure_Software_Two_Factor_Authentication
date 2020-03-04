@@ -1,9 +1,34 @@
-from flask import Flask, render_template, request, session, make_response
+from flask import Flask, render_template, request, session, make_response, redirect, url_for
 from static.database.database import Database
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 app = Flask(__name__)
 # app.secret_key = ''
 
 dbmain = Database()
+
+EMAIL_ADDRESS = 'graphical58@gmail.com'
+PASSWORD = 'Testing1@'
+
+def sendEmail():
+    server = smtplib.SMTP(host='smtp.gmail.com', port=587)
+    server.starttls()
+    server.login(EMAIL_ADDRESS, PASSWORD)
+
+    msg = MIMEMultipart()
+
+    msg['From'] = EMAIL_ADDRESS
+    msg['To'] = EMAIL_ADDRESS
+    msg['Subject'] = ""
+
+    msg.attach(MIMEText("THIS IS A TEST EMAIL TO SEE IF IT WORKS :)", 'plain'))
+
+    server.send_message(msg)
+
+    server.quit()
+
 
 @app.route('/')
 def index():
@@ -22,6 +47,7 @@ def login():
 
     if dbmain.loginValidation(username, sequence) == 1:
         userId = dbmain.getUserIdByUsername(username)
+        sendEmail()
         # generate login token
         # dbmain.login
         # get user id
@@ -30,8 +56,8 @@ def login():
         return render_template('index.html')
         
 @app.route('/register')
-def register():
-    return render_template('registration.html')
+def register(error=''):
+    return render_template('registration.html',error=error)
 
 @app.route('/register/selection', methods=['GET', 'POST'])
 def selection():
@@ -39,13 +65,18 @@ def selection():
     username = request.form.get('username')
     email = request.form.get('email')
     sequence = request.form.get('gridSequence')
+    sequenceLength = request.form.get('tilesClicked')
 
-    if not dbmain.userExistsCheck(username):
+    username = username.lower()
+    print(sequenceLength)
+
+    if int(sequenceLength) > 3 and not dbmain.userExistsCheck(username):
         dbmain.addNewAccount(username, fullname, email, sequence)
         return render_template('index.html')
     else:
-        return render_template('login.html') #THIS HAS TO BE CHANGED ================================================ADFADFADF=AD=FA=DFA=F=ASDF=AD=FA=F=AF=ASF=A=F=ASF=ASDF=
-
+        error = "Fill in all fields and check that number of tiles clicked is at least 4."
+        return redirect(url_for('register'))
+        # return register(error)
 @app.route('/home')
 def home():
     return render_template('home.html')
