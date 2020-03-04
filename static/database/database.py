@@ -19,21 +19,22 @@ class Database:
             os.remove(DATABASE)
 
     # Creates a new account
-    def addNewAccount(self, username, fullname, email, sequence):
+    def addNewAccount(self, username, fullname, email, sequence, imageid):
         userid = user.account_generateid(self.db)
-        user.account_newAccount(self.db, userid, username, fullname, email, sequence)
+        user.account_newAccount(self.db, userid, username, fullname, email, sequence, imageid)
 
     def userExistsCheck(self, username):
         return user.account_usernameexists(self.db, username)
 
-    def loginValidation(self, username, sequence):
+    def loginValidation(self, username, sequence, imageid):
         userExists = user.account_usernameexists(self.db, username)
 
         if userExists:
             userId = user.account_getUserIdByUsername(self.db, username)
             dbSequence = user.account_getSequenceByUserId(self.db, userId)
+            dbImageId = user.account_getImageIdByUserId(self.db, userId)
 
-            if dbSequence == sequence:
+            if dbSequence == sequence and dbImageId == imageid:
                 return 1
             else:
                 return 0
@@ -42,3 +43,6 @@ class Database:
 
     def getUserIdByUsername(self, username):
         return user.account_getUserIdByUsername(self.db, username)
+
+    def getEmailByUserId(self, userid):
+        return user.account_getEmailByUserId(self.db, userid)
