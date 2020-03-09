@@ -7,8 +7,9 @@
 
 {% block bodyblock %}
         <div id = "registerBox">
-            <form action="/login/login" method="POST">
+            <h3>Login To Your Account</h3><br>
 
+            <form action="/login/login" method="POST">
                 <!-- Username -->
                 <div class = "signUpFields">
                     <h4>Username</h4>
@@ -16,13 +17,14 @@
                 </div>
 
                 <!-- Image Selection -->
-                <br><h4>Select an image:</h4>
+                <br><h4>Select your image:</h4>
                 <div id="imageSelector">
                     <button type="button" name="button" value="1" class="imageButton1 imbutton active" onclick="image1()"></button>
                     <button type="button" name="button" value="2" class="imageButton2 imbutton" onclick="image2()"></button>
                     <button type="button" name="button" value="3" class="imageButton3 imbutton" onclick="image3()"></button>
                     <input type="hidden" id="imageToUse" name="imageToUse" value="0">
                 </div>
+                <br><br><br>
 
                 <!-- Grid Sequence Selection -->
                 <h4>Identify Points To Be Used For Authentication:</h4>

@@ -89,11 +89,26 @@
 #imageboxcontent{
     width: 960px;
     height: 540px;
+    display: none;
 }
 
 #buttonBox{
     text-align: center;
 }
+
+#otpBox{
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 200px;
+    height: 200px;
+    color: white;
+    text-align: center;
+}
+
 
 body{
     background-color: #18181a;

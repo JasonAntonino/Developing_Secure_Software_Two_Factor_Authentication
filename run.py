@@ -65,9 +65,17 @@ def login():
         # generate login token
         # dbmain.login
         # get user id
-        return render_template('home.html')
+        return render_template('otppage.html')
     else:
-        return render_template('index.html')
+        return render_template('login.html')
+
+@app.route('/otp')
+def otppage():
+    return render_template('otppage.html')
+
+@app.route('/otp/otp', methods=['GET','POST'])
+def otp():
+    return render_template('home.html')
         
 @app.route('/register')
 def register(error=''):
@@ -92,6 +100,7 @@ def selection():
         error = "Fill in all fields and check that number of tiles clicked is at least 4."
         return redirect(url_for('register'))
         # return register(error)
+
 @app.route('/home')
 def home():
     return render_template('home.html')

@@ -1,0 +1,34 @@
+{% extends "BASE.html" %}
+{% block title %}Login page{% endblock %}
+
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block bodyblock %}
+        <div id = "otpBox">
+            <form action="/otp/otp" method="POST">
+
+                <!-- Username -->
+                <div class = "otpfield">
+                    <h4>Enter OTP here:</h4>
+                    <!-- <input type="text" name="otp" pattern="^[a-zA-Z0-9]+$" required pattern="\S+.*" /> -->
+                    <input type="text" name="otp"/>
+                </div>
+                
+                <!-- Create AccountButton -->
+                <button class="btn btn-primary btn-lg button" type="submit">Login</button>
+            </form>
+
+            <!-- Go Back button -->
+            <a class="btn btn-primary btn-lg button" href="/" role="button">Resend OTP</a>        
+        </div>
+
+    {% block script %}
+
+        <!-- <script type="text/javascript" src="static/scripts/imageSelector.js"></script>
+        <script type="text/javascript" src={{ url_for('static', filename='scripts/gridSelector.js')}}></script> -->
+        <!-- <script type="text/javascript" src={{ url_for('static', filename='scripts/clearSequence.js')}}></script> -->
+    {% endblock %}
+
+{% endblock %}
