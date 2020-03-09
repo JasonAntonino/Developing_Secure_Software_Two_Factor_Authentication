@@ -17,6 +17,12 @@ function image1() {
             ctx.strokeRect((-96 + 96*(j+1)) , (-90 + 90*(i+1)) , 96*(j+1) , 90*(i+1));
         }
     }
+
+    //Clears the sequence and resets number of tiles clicked to 0.
+    document.getElementById("gridSequence").value = "";
+    counter = 0;
+    document.getElementById("numberinsequence").innerText = "Number of Tiles Clicked : " + counter.toString();
+    document.getElementById("tilesClicked").value = counter.toString();
 };
 
 function image2() {
@@ -38,6 +44,12 @@ function image2() {
             ctx.strokeRect((-96 + 96*(j+1)) , (-90 + 90*(i+1)) , 96*(j+1) , 90*(i+1));
         }
     }
+
+    //Clears the sequence and resets number of tiles clicked to 0.
+    document.getElementById("gridSequence").value = "";
+    counter = 0;
+    document.getElementById("numberinsequence").innerText = "Number of Tiles Clicked : " + counter.toString();
+    document.getElementById("tilesClicked").value = counter.toString();
 };
 
 function image3() {
@@ -59,4 +71,10 @@ function image3() {
             ctx.strokeRect((-96 + 96*(j+1)) , (-90 + 90*(i+1)) , 96*(j+1) , 90*(i+1));
         }
     }
+
+    //Clears the sequence and resets number of tiles clicked to 0.
+    document.getElementById("gridSequence").value = "";
+    counter = 0;
+    document.getElementById("numberinsequence").innerText = "Number of Tiles Clicked : " + counter.toString();
+    document.getElementById("tilesClicked").value = counter.toString();
 };
