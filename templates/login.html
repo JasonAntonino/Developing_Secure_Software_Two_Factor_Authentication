@@ -28,10 +28,11 @@
 
                 <!-- Grid Sequence Selection -->
                 <h4>Identify Points To Be Used For Authentication:</h4>
-                <img id="imageboxcontent" src="static/images/cat_grid.jpg" alt="image" usemap="#imagemap">
-                <map id="mapforimage" name="imagemap">
-                    <input type="hidden" id="gridSequence" name="gridSequence" value="">
-                </map>
+                <img id="imageboxcontent" src="static/images/cat.jpg" alt="image">
+                <canvas id="myCanvas" width="960" height="540" style="border:1px solid #d3d3d3;"></canvas>
+                <input type="hidden" id="gridSequence" name="gridSequence" value="">
+                <!-- <h4 id="sequencetext"></h4> --> <!-- FOR DEBUG PURPOSES ONLY --> 
+
                 <h4 id="sequencetext"></h4>
                 <h4 id="numberinsequence">Number of Tiles Clicked: 0</h4> <!-- Shows the user how many tiles they have clicked -->
                 <input type="hidden" id="tilesClicked" name="tilesClicked" value="0">
@@ -48,22 +49,22 @@
         </div>
 
     {% block script %}
+        <!-- Creates the graphical password image grid -->
         <script>
-            var counter = 1;
-            // Iterates through column
-            for (var i = 0; i < 6; i++){
-                //Iterates through rows
-                for(var j = 0; j < 10; j++){
-                    var x = document.createElement("AREA");
-                    x.setAttribute("id", counter);
-                    x.setAttribute("alt", counter);
-                    x.setAttribute("shape", "rect");
-                    x.setAttribute("coords", (-96 + 96*(j+1)) + ',' + (-90 + 90*(i+1)) + ',' + 96*(j+1) + ',' + 90*(i+1));
-                    x.setAttribute("onclick", "gridSelector(" + x.id + ");");
-                    //alert(x.onclick);
-                    document.getElementById("mapforimage").appendChild(x);
-                    //myHTML += '<area id="' + counter + '" shape="rect" coords="' + (-96 + 96*(j+1)) + ',' + (-90 + 90*(i+1)) + ',' + 96*(j+1) + ',' + 90*(i+1) + '" alt="' + counter + '" onclick="gridSelector(this.id)"></area><br/>';
-                    counter++;
+            window.onload = function(){
+                var c = document.getElementById("myCanvas");
+                var ctx = c.getContext("2d");
+                var img = document.getElementById("imageboxcontent");
+                ctx.drawImage(img, 0, 0, 960, 540);
+                
+                //DRAWS THE GRID ON THE IMAGE/CANVAS
+                // Iterates through column
+                for (var i = 0; i < 7; i++){
+                    //Iterates through rows
+                    for(var j = 0; j < 11; j++){
+                        ctx.strokeStyle = "#FF0000";
+                        ctx.strokeRect((-96 + 96*(j+1)) , (-90 + 90*(i+1)) , 96*(j+1) , 90*(i+1));
+                    }
                 }
             }
         </script>
