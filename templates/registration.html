@@ -13,7 +13,7 @@
                 <!-- Full Name -->
                 <div class = "signUpFields">
                     <h4>Full Name</h4>
-                    <input type="text" name="fullname" pattern="^[a-zA-Z0-9]+$" required pattern="\S+.*" />
+                    <input type="text" name="fullname" pattern="^[a-zA-Z0-9_ ]*$" required pattern="\S+.*" />
                 </div>
 
                 <!-- Username -->
@@ -45,7 +45,7 @@
                 <input type="hidden" id="gridSequence" name="gridSequence" value="">
                 <!-- <h4 id="sequencetext"></h4> --> <!-- FOR DEBUG PURPOSES ONLY --> 
                 
-                <h4 id="numberinsequence">Number of Tiles Clicked: 0</h4> <!-- Shows the user how many tiles they have clicked -->
+                <h4 id="numberinsequence">Number of Tiles Clicked : 0</h4> <!-- Shows the user how many tiles they have clicked -->
                 <input type="hidden" id="tilesClicked" name="tilesClicked" value="0">
 
                 <!-- Button which clears the created sequence -->
