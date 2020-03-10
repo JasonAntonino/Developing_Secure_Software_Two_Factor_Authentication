@@ -1,6 +1,7 @@
 import os
 import sqlite3
 from static.database.tables import account as user
+from static.database.tables import otp as otptable
 DATABASE = 'dbmain'
 
 class Database:
@@ -13,6 +14,7 @@ class Database:
 
     def init_tables(self):
         user.account_init(self.db)
+        otptable.otp_init(self.db)
 
     def delete_db(self):
         if os.path.exists(DATABASE):
@@ -46,3 +48,16 @@ class Database:
 
     def getEmailByUserId(self, userid):
         return user.account_getEmailByUserId(self.db, userid)
+
+    def addNewOtp(self, username, otp):
+        userid = otptable.otp_generateid(self.db)
+        otptable.otp_newAccount(self.db, userid, username, otp)
+
+    def getUsernamesInOtp(self):
+        return otptable.otp_getAllUsernames(self.db)
+    
+    def renewOtpOfUser(self, username, otp):
+        otptable.otp_updateOtpOfUsername(self.db, username, otp)
+
+    def getOtpByUserId(self, userId):
+        return otptable.otp_getOtpByUserId(self.db, userId)

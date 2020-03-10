@@ -51,3 +51,24 @@ def otp_generateid(db):
     c.execute('SELECT MAX(USERID)+1 FROM OTPTABLE')
     return c.fetchall()[0][0]
 
+def otp_getUserIdByUsername(db, username):
+    c = db.cursor()
+    c.execute('SELECT USERID FROM OTPTABLE WHERE USERUSERNAME = (?)', (username,))
+    userId = c.fetchall()[0][0]
+    return userId
+
+def otp_getOtpByUserId(db, userId):
+    c = db.cursor()
+    c.execute('SELECT USEROTP FROM OTPTABLE WHERE USERID = (?)', (userId,))
+    otp = c.fetchall()[0][0]
+    return otp
+
+def otp_getAllUsernames(db):
+    c = db.cursor()
+    c.execute('SELECT USERUSERNAME FROM OTPTABLE')
+    usernames = c.fetchall()
+    return usernames
+
+def otp_updateOtpOfUsername(db, username, otp):
+    c = db.cursor()
+    c.execute('UPDATE OTPTABLE SET USEROTP = (?) WHERE USERUSERNAME = (?)', (otp, username,))

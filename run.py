@@ -40,7 +40,6 @@ def generateOTP():
         otp += string[math.floor(random.random() * stringLength)]
     return otp
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -62,6 +61,7 @@ def login():
         email = dbmain.getEmailByUserId(userId)
         otp = generateOTP()
         sendEmail(email, otp)
+        
         # generate login token
         # dbmain.login
         # get user id

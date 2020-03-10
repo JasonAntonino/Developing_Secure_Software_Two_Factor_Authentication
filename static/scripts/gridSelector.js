@@ -10,7 +10,9 @@ function logDown(e){
     
     //Sets the font and font colour
     ctx.font = "12px Arial";
-    ctx.fillStyle = "#a5d419";
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 4;
     
     
     
@@ -20,6 +22,7 @@ function logDown(e){
     var yValue = e.clientY - rect.top;
     
     //Adds the click counter on the canvas
+    ctx.strokeText(counter.toString(), xValue, yValue);
     ctx.fillText(counter.toString(), xValue, yValue);
 
     //Decides which tile is being clicked.
