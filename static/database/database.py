@@ -62,5 +62,8 @@ class Database:
     def getOtpByUserId(self, userId):
         return otptable.otp_getOtpByUserId(self.db, userId)
 
+    def getUsernameByUserId(self, userId):
+        return otptable.otp_getUsernameByUserId(self.db, userId)
+
     def getTimestampByUserId(self, userId):
         return otptable.otp_getTimestampByUserId(self.db, userId)

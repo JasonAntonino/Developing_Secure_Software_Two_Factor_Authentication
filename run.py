@@ -49,34 +49,54 @@ def index():
 def loginpage():
     return render_template('login.html')
 
-@app.route('/login/login', methods=['GET','POST'])
-def login():
-    username = request.form.get('username')
-    sequence = request.form.get('gridSequence')
-    imageid = request.form.get('imageToUse')
+# @app.route('/login/login', methods=['GET','POST'])
+# def login():
+#     username = request.form.get('username')
+#     sequence = request.form.get('gridSequence')
+#     imageid = request.form.get('imageToUse')
 
-    username = username.lower()
+#     username = username.lower()
 
-    if dbmain.loginValidation(username, sequence, imageid) == 1:
-        userId = dbmain.getUserIdByUsername(username)
-        email = dbmain.getEmailByUserId(userId)
+#     if dbmain.loginValidation(username, sequence, imageid) == 1:
+#         userId = dbmain.getUserIdByUsername(username)
+#         email = dbmain.getEmailByUserId(userId)
         
-        otp = generateOTP()
-        timestamp = datetime.datetime.now().timestamp()
-        dbmain.renewOtpOfUser(username, otp, str(timestamp)) #Renews the OTP and timestamp of user in database
-        sendEmail(email, otp)
+#         otp = generateOTP()
+#         timestamp = datetime.datetime.now().timestamp()
+#         dbmain.renewOtpOfUser(username, otp, str(timestamp)) #Renews the OTP and timestamp of user in database
+#         sendEmail(email, otp)
         
-        # generate login token
-        # dbmain.login
-        # get user id
-        return render_template('otppage.html', userid = userId)
-    else:
-        return render_template('login.html')
+#         # generate login token
+#         # dbmain.login
+#         # get user id
+#         return render_template('otppage.html', userid = userId)
+#     else:
+#         return render_template('login.html')
 
-@app.route('/otp')
+@app.route('/otp', methods=['GET','POST'])
 def otppage():
-    return render_template('otppage.html')
+        username = request.form.get('username')
+        sequence = request.form.get('gridSequence')
+        imageid = request.form.get('imageToUse')
 
+        username = username.lower()
+
+        if dbmain.loginValidation(username, sequence, imageid) == 1:
+            userId = dbmain.getUserIdByUsername(username)
+            email = dbmain.getEmailByUserId(userId)
+            
+            otp = generateOTP()
+            timestamp = datetime.datetime.now().timestamp()
+            dbmain.renewOtpOfUser(username, otp, str(timestamp)) #Renews the OTP and timestamp of user in database
+            sendEmail(email, otp)
+            
+            # generate login token
+            # dbmain.login
+            # get user id
+            return render_template('otppage.html', userid = userId)
+        else:
+            return render_template('login.html')
+        
 @app.route('/otp/otp', methods=['GET','POST'])
 def otp():
     formOtp = request.form.get('otp')
@@ -90,9 +110,20 @@ def otp():
     if formOtp == dbOtp and newTimestamp - dbTimestamp < 120:
         return render_template('home.html')
     else:
-        return redirect(url_for('otppage'))
+        return render_template('otppage.html', userid = userid)
 
-    
+@app.route('/otp/newOtp', methods=['GET', 'POST'])
+def newOtp():
+    userid = request.form.get('userid')
+    username = dbmain.getUsernameByUserId(userid)
+    email = dbmain.getEmailByUserId(userid)
+
+    otp = generateOTP()
+    timestamp = datetime.datetime.now().timestamp()
+    dbmain.renewOtpOfUser(username, otp, str(timestamp)) #Renews the OTP and timestamp of user in database
+    sendEmail(email, otp)
+    return render_template('otppage.html', userid = userid)
+
         
 @app.route('/register')
 def register(error=''):

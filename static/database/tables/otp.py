@@ -59,6 +59,12 @@ def otp_getUserIdByUsername(db, username):
     userId = c.fetchall()[0][0]
     return userId
 
+def otp_getUsernameByUserId(db, userId):
+    c = db.cursor()
+    c.execute('SELECT USERUSERNAME FROM OTPTABLE WHERE USERID = (?)', (userId,))
+    username = c.fetchall()[0][0]
+    return username
+
 def otp_getOtpByUserId(db, userId):
     c = db.cursor()
     c.execute('SELECT USEROTP FROM OTPTABLE WHERE USERID = (?)', (userId,))
