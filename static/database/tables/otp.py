@@ -6,7 +6,8 @@ from static.database.tables import csvparam as csvparameter
 # account table details:
 # USERID        : user id
 # USERUSERNAME  : username
-# USEROTP       : time-based otp
+# USEROTP       : otp
+# USERTIME      : otp creation timestamp
 
 CONTENT_PATH = './static/database/content/'
 CSV_USER = 'otp.csv'
@@ -15,6 +16,7 @@ OTP_FULLPATH = CONTENT_PATH + CSV_USER
 SCRIPT_CREATE = 'CREATE TABLE OTPTABLE (USERID integer PRIMARY KEY'
 SCRIPT_CREATE += ', USERUSERNAME VARCHAR(32)'
 SCRIPT_CREATE += ', USEROTP VARCHAR(6)'
+SCRIPT_CREATE += ', USERTIME VARCHAR(32)'
 SCRIPT_CREATE += ')'
 
 def otp_init(db):
@@ -25,26 +27,26 @@ def otp_init(db):
         csv_reader = csv.reader(csv_file, delimiter=csvparameter.CSV_DELIMITER, quotechar=csvparameter.CSV_QUOTE, quoting=csv.QUOTE_MINIMAL, skipinitialspace=True)
         id = 0
         for row in csv_reader:
-            if len(row) == 2:
+            if len(row) == 3:
                 id += 1
-                otp_insert(db, id, row[0], row[1])
+                otp_insert(db, id, row[0], row[1], row[2])
 
 def otp_create(db):
     c = db.cursor()
     c.execute(SCRIPT_CREATE)
     db.commit()
 
-def otp_insert(db,id,username,otp):
+def otp_insert(db,id,username,otp,timestamp):
     c = db.cursor()
-    c.execute('INSERT INTO OTPTABLE (USERID, USERUSERNAME, USEROTP) VALUES (?,?,?)', (id,username,otp))
+    c.execute('INSERT INTO OTPTABLE (USERID, USERUSERNAME, USEROTP, USERTIME) VALUES (?,?,?,?)', (id,username,otp,timestamp))
     db.commit()
 
-def otp_newAccount(db,id,username,otp):
+def otp_newAccount(db,id,username,otp,timestamp):
     with open(OTP_FULLPATH, 'a') as csvfile:
         writer = csv.writer(csvfile, delimiter=csvparameter.CSV_DELIMITER, quotechar=csvparameter.CSV_QUOTE, quoting=csv.QUOTE_MINIMAL)
-        writer.writerows([[username,otp]])
+        writer.writerows([[username,otp,timestamp]])
     id = otp_generateid(db)
-    otp_insert(db,id,username,otp)
+    otp_insert(db,id,username,otp,timestamp)
 
 def otp_generateid(db):
     c = db.cursor()
@@ -63,12 +65,16 @@ def otp_getOtpByUserId(db, userId):
     otp = c.fetchall()[0][0]
     return otp
 
-def otp_getAllUsernames(db):
+def otp_getTimestampByUserId(db, userId):
     c = db.cursor()
-    c.execute('SELECT USERUSERNAME FROM OTPTABLE')
-    usernames = c.fetchall()
-    return usernames
+    c.execute('SELECT USERTIME FROM OTPTABLE WHERE USERID = (?)', (userId,))
+    timestamp = c.fetchall()[0][0]
+    return timestamp
 
-def otp_updateOtpOfUsername(db, username, otp):
+def otp_updateOtpAndTimestampOfUsername(db, username, otp, timestamp):
     c = db.cursor()
-    c.execute('UPDATE OTPTABLE SET USEROTP = (?) WHERE USERUSERNAME = (?)', (otp, username,))
+    print("username = " + username)
+    print("otp = " + otp)
+    print("timestamp = " + str(timestamp))
+    c.execute('UPDATE OTPTABLE SET USEROTP = (?), USERTIME = (?) WHERE USERUSERNAME = (?)', (otp, timestamp, username))
+    db.commit()

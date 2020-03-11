@@ -5,6 +5,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import random as random
 import math as math
+import datetime
 
 app = Flask(__name__)
 # app.secret_key = ''
@@ -59,13 +60,16 @@ def login():
     if dbmain.loginValidation(username, sequence, imageid) == 1:
         userId = dbmain.getUserIdByUsername(username)
         email = dbmain.getEmailByUserId(userId)
+        
         otp = generateOTP()
+        timestamp = datetime.datetime.now().timestamp()
+        dbmain.renewOtpOfUser(username, otp, str(timestamp)) #Renews the OTP and timestamp of user in database
         sendEmail(email, otp)
         
         # generate login token
         # dbmain.login
         # get user id
-        return render_template('otppage.html')
+        return render_template('otppage.html', userid = userId)
     else:
         return render_template('login.html')
 
@@ -75,7 +79,20 @@ def otppage():
 
 @app.route('/otp/otp', methods=['GET','POST'])
 def otp():
-    return render_template('home.html')
+    formOtp = request.form.get('otp')
+    userid = request.form.get('userid')
+    newTimestamp = datetime.datetime.now().timestamp()         #Timestamp after form is submitted
+
+    dbOtp = dbmain.getOtpByUserId(userid)                      #OTP from database
+    dbTimestamp = float(dbmain.getTimestampByUserId(userid))   #Timestamp from database
+
+    #If the otp entered matches with one in database and timestamp difference is less than 2 mins
+    if formOtp == dbOtp and newTimestamp - dbTimestamp < 120:
+        return render_template('home.html')
+    else:
+        return redirect(url_for('otppage'))
+
+    
         
 @app.route('/register')
 def register(error=''):
@@ -95,6 +112,11 @@ def selection():
 
     if int(sequenceLength) > 3 and not dbmain.userExistsCheck(username):
         dbmain.addNewAccount(username, fullname, email, sequence, imageid)
+
+        otp = generateOTP() #Generates new OTP
+        timestamp = datetime.datetime.now().timestamp()
+        dbmain.addNewOtp(username, otp, str(timestamp))
+
         return render_template('index.html')
     else:
         error = "Fill in all fields and check that number of tiles clicked is at least 4."

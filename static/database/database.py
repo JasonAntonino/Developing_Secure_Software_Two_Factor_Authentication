@@ -49,15 +49,18 @@ class Database:
     def getEmailByUserId(self, userid):
         return user.account_getEmailByUserId(self.db, userid)
 
-    def addNewOtp(self, username, otp):
+    def addNewOtp(self, username, otp, timestamp):
         userid = otptable.otp_generateid(self.db)
-        otptable.otp_newAccount(self.db, userid, username, otp)
+        otptable.otp_newAccount(self.db, userid, username, otp, timestamp)
 
     def getUsernamesInOtp(self):
         return otptable.otp_getAllUsernames(self.db)
     
-    def renewOtpOfUser(self, username, otp):
-        otptable.otp_updateOtpOfUsername(self.db, username, otp)
+    def renewOtpOfUser(self, username, otp, timestamp):
+        otptable.otp_updateOtpAndTimestampOfUsername(self.db, username, otp, timestamp)
 
     def getOtpByUserId(self, userId):
         return otptable.otp_getOtpByUserId(self.db, userId)
+
+    def getTimestampByUserId(self, userId):
+        return otptable.otp_getTimestampByUserId(self.db, userId)
