@@ -9,7 +9,7 @@
         <h4>{{error}}</h4>
         <div id = "registerBox">
             <h3>Create Your Account</h3><br>
-            <form action="/register/selection" method="POST">
+            <form action="/register" method="POST">
                 <!-- Full Name -->
                 <div class = "signUpFields">
                     <h4>Full Name</h4>
@@ -29,7 +29,7 @@
                 </div>
 
                 <!-- Image Selection -->
-                <br><h4>Select an image:</h4>
+                <br><h4>Select an image for Graphical Password:</h4>
                 <div id="imageSelector">
                     <button type="button" name="button" value="1" class="imageButton1 imbutton active" onclick="image1()"></button>
                     <button type="button" name="button" value="2" class="imageButton2 imbutton" onclick="image2()"></button>
@@ -39,7 +39,12 @@
                 <br><br><br>
 
                 <!-- Grid Sequence Selection -->
-                <h4>Identify Points To Be Used For Authentication:</h4>
+                <h4>Generate a Graphical Password</h4>
+                <h6>Requirements:<br>
+                    1. Must create a minimum sequence of 4. <br>
+                    2. Maximum length of password is 10. <br>
+                    3. Tiles can be clicked more than once.
+                </h6>
                 <img id="imageboxcontent" src="static/images/cat.jpg" alt="image">
                 <canvas id="myCanvas" width="960" height="540" style="border:1px solid #d3d3d3;"></canvas>
                 <input type="hidden" id="gridSequence" name="gridSequence" value="">
@@ -68,6 +73,8 @@
                 var img = document.getElementById("imageboxcontent");
                 ctx.drawImage(img, 0, 0, 960, 540);
                 
+                ctx.lineWidth = 4;
+
                 //DRAWS THE GRID ON THE IMAGE/CANVAS
                 // Iterates through column
                 for (var i = 0; i < 7; i++){
@@ -80,7 +87,8 @@
             }
         </script>
 
-        <script type="text/javascript" src="static/scripts/imageSelector.js"></script>
+        <!-- <script type="text/javascript" src="static/scripts/imageSelector.js"></script> -->
+        <script type="text/javascript" src={{ url_for('static', filename='scripts/imageSelector.js')}}></script>
         <script type="text/javascript" src={{ url_for('static', filename='scripts/gridSelector.js')}}></script>
     {% endblock %}
 {% endblock %}

@@ -49,30 +49,6 @@ def index():
 def loginpage():
     return render_template('login.html')
 
-# @app.route('/login/login', methods=['GET','POST'])
-# def login():
-#     username = request.form.get('username')
-#     sequence = request.form.get('gridSequence')
-#     imageid = request.form.get('imageToUse')
-
-#     username = username.lower()
-
-#     if dbmain.loginValidation(username, sequence, imageid) == 1:
-#         userId = dbmain.getUserIdByUsername(username)
-#         email = dbmain.getEmailByUserId(userId)
-        
-#         otp = generateOTP()
-#         timestamp = datetime.datetime.now().timestamp()
-#         dbmain.renewOtpOfUser(username, otp, str(timestamp)) #Renews the OTP and timestamp of user in database
-#         sendEmail(email, otp)
-        
-#         # generate login token
-#         # dbmain.login
-#         # get user id
-#         return render_template('otppage.html', userid = userId)
-#     else:
-#         return render_template('login.html')
-
 @app.route('/otp', methods=['GET','POST'])
 def otppage():
         username = request.form.get('username')
@@ -95,7 +71,8 @@ def otppage():
             # get user id
             return render_template('otppage.html', userid = userId)
         else:
-            return render_template('login.html')
+            error = "Username and/or graphical password incorrect"
+            return render_template('login.html', error=error)
         
 @app.route('/otp/otp', methods=['GET','POST'])
 def otp():
@@ -125,34 +102,35 @@ def newOtp():
     return render_template('otppage.html', userid = userid)
 
         
-@app.route('/register')
-def register(error=''):
-    return render_template('registration.html',error=error)
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        fullname = request.form.get('fullname')
+        username = request.form.get('username')
+        email = request.form.get('email')
+        sequence = request.form.get('gridSequence')
+        sequenceLength = request.form.get('tilesClicked')
+        imageid = request.form.get('imageToUse')
 
-@app.route('/register/selection', methods=['GET', 'POST'])
-def selection():
-    fullname = request.form.get('fullname')
-    username = request.form.get('username')
-    email = request.form.get('email')
-    sequence = request.form.get('gridSequence')
-    sequenceLength = request.form.get('tilesClicked')
-    imageid = request.form.get('imageToUse')
+        username = username.lower()
+        print(sequenceLength)
 
-    username = username.lower()
-    print(sequenceLength)
+        if int(sequenceLength) > 3 and not dbmain.userExistsCheck(username):
+            dbmain.addNewAccount(username, fullname, email, sequence, imageid)
 
-    if int(sequenceLength) > 3 and not dbmain.userExistsCheck(username):
-        dbmain.addNewAccount(username, fullname, email, sequence, imageid)
+            otp = generateOTP() #Generates new OTP
+            timestamp = datetime.datetime.now().timestamp()
+            dbmain.addNewOtp(username, otp, str(timestamp))
 
-        otp = generateOTP() #Generates new OTP
-        timestamp = datetime.datetime.now().timestamp()
-        dbmain.addNewOtp(username, otp, str(timestamp))
-
-        return render_template('index.html')
+            return render_template('index.html')
+        else:
+            error = "Invalid Credentials and/or graphical password"
+            return render_template('registration.html', error=error)
+            # return redirect(url_for('register'))
+            # return register(error)
     else:
-        error = "Fill in all fields and check that number of tiles clicked is at least 4."
-        return redirect(url_for('register'))
-        # return register(error)
+        return render_template('registration.html')
+
 
 @app.route('/home')
 def home():

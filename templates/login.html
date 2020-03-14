@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block bodyblock %}
+        <h4>{{error}}</h4>
         <div id = "registerBox">
             <h3>Login To Your Account</h3><br>
 
@@ -17,7 +18,7 @@
                 </div>
 
                 <!-- Image Selection -->
-                <br><h4>Select your image:</h4>
+                <br><h4>Select your Graphical Password Image:</h4>
                 <div id="imageSelector">
                     <button type="button" name="button" value="1" class="imageButton1 imbutton active" onclick="image1()"></button>
                     <button type="button" name="button" value="2" class="imageButton2 imbutton" onclick="image2()"></button>
@@ -27,7 +28,12 @@
                 <br><br><br>
 
                 <!-- Grid Sequence Selection -->
-                <h4>Identify Points To Be Used For Authentication:</h4>
+                <h4>Enter your Graphical Password</h4>
+                <h6>Requirements:<br>
+                    1. Must create a minimum sequence of 4. <br>
+                    2. Maximum length of password is 10. <br>
+                    3. Tiles can be clicked more than once.
+                </h6>
                 <img id="imageboxcontent" src="static/images/cat.jpg" alt="image">
                 <canvas id="myCanvas" width="960" height="540" style="border:1px solid #d3d3d3;"></canvas>
                 <input type="hidden" id="gridSequence" name="gridSequence" value="">
@@ -57,6 +63,8 @@
                 var img = document.getElementById("imageboxcontent");
                 ctx.drawImage(img, 0, 0, 960, 540);
                 
+                ctx.lineWidth = 4;
+
                 //DRAWS THE GRID ON THE IMAGE/CANVAS
                 // Iterates through column
                 for (var i = 0; i < 7; i++){

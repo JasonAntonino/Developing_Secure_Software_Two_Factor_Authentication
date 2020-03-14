@@ -79,8 +79,5 @@ def otp_getTimestampByUserId(db, userId):
 
 def otp_updateOtpAndTimestampOfUsername(db, username, otp, timestamp):
     c = db.cursor()
-    print("username = " + username)
-    print("otp = " + otp)
-    print("timestamp = " + str(timestamp))
     c.execute('UPDATE OTPTABLE SET USEROTP = (?), USERTIME = (?) WHERE USERUSERNAME = (?)', (otp, timestamp, username))
     db.commit()

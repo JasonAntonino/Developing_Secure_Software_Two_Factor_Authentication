@@ -19,6 +19,7 @@ function image1() {
     }
 
     //Clears the sequence and resets number of tiles clicked to 0.
+    document.getElementById("myCanvas").addEventListener('mousedown', logDown);
     document.getElementById("gridSequence").value = "";
     counter = 0;
     document.getElementById("numberinsequence").innerText = "Number of Tiles Clicked : " + counter.toString();
@@ -46,6 +47,7 @@ function image2() {
     }
 
     //Clears the sequence and resets number of tiles clicked to 0.
+    document.getElementById("myCanvas").addEventListener('mousedown', logDown);
     document.getElementById("gridSequence").value = "";
     counter = 0;
     document.getElementById("numberinsequence").innerText = "Number of Tiles Clicked : " + counter.toString();
@@ -73,6 +75,7 @@ function image3() {
     }
 
     //Clears the sequence and resets number of tiles clicked to 0.
+    document.getElementById("myCanvas").addEventListener('mousedown', logDown);
     document.getElementById("gridSequence").value = "";
     counter = 0;
     document.getElementById("numberinsequence").innerText = "Number of Tiles Clicked : " + counter.toString();

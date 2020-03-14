@@ -35,10 +35,14 @@ function logDown(e){
     document.getElementById("numberinsequence").innerText = "Number of Tiles Clicked : " + counter.toString();
     document.getElementById("tilesClicked").value = counter.toString();
     
+    if (counter == 10){
+        document.getElementById("myCanvas").removeEventListener('mousedown', logDown);
+    }
 };
 
 //Function that resets the sequence
 function clearSequence(){
+    document.getElementById("myCanvas").addEventListener('mousedown', logDown);
     document.getElementById("gridSequence").value = "";
     counter = 0;
     document.getElementById("numberinsequence").innerText = "Number of Tiles Clicked : " + counter.toString();
