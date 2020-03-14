@@ -87,7 +87,8 @@ def otp():
     if formOtp == dbOtp and newTimestamp - dbTimestamp < 120:
         return render_template('home.html')
     else:
-        return render_template('otppage.html', userid = userid)
+        error = "OTP entered is incorrect or has expired"
+        return render_template('otppage.html', userid = userid, error=error)
 
 @app.route('/otp/newOtp', methods=['GET', 'POST'])
 def newOtp():
