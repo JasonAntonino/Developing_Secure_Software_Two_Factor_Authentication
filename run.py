@@ -6,6 +6,7 @@ from email.mime.text import MIMEText
 import random as random
 import math as math
 import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 # app.secret_key = ''
@@ -114,10 +115,13 @@ def register():
         imageid = request.form.get('imageToUse')
 
         username = username.lower()
-        print(sequenceLength)
+        # print(sequenceLength)
 
         if int(sequenceLength) > 3 and not dbmain.userExistsCheck(username):
-            dbmain.addNewAccount(username, fullname, email, sequence, imageid)
+            # Salts and hashes the sequence
+            hashedAndSalted = generate_password_hash(sequence, "sha256")
+
+            dbmain.addNewAccount(username, fullname, email, hashedAndSalted, imageid)
 
             otp = generateOTP() #Generates new OTP
             timestamp = datetime.datetime.now().timestamp()

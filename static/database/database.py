@@ -2,6 +2,8 @@ import os
 import sqlite3
 from static.database.tables import account as user
 from static.database.tables import otp as otptable
+from werkzeug.security import check_password_hash
+
 DATABASE = 'dbmain'
 
 class Database:
@@ -36,7 +38,7 @@ class Database:
             dbSequence = user.account_getSequenceByUserId(self.db, userId)
             dbImageId = user.account_getImageIdByUserId(self.db, userId)
 
-            if dbSequence == sequence and dbImageId == imageid:
+            if check_password_hash(dbSequence, sequence) and dbImageId == imageid:
                 return 1
             else:
                 return 0
