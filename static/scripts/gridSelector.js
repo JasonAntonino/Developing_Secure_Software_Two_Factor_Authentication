@@ -9,7 +9,7 @@ function logDown(e){
     var ctx = canvas.getContext("2d");
     
     //Sets the font and font colour
-    ctx.font = "12px Arial";
+    ctx.font = "16px Arial";
     ctx.fillStyle = "white";
     ctx.strokeStyle = 'black';
     ctx.lineWidth = 4;
